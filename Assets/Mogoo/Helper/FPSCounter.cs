@@ -3,7 +3,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Mogoo.Extension
+namespace Mogoo.Helper
 {
     [RequireComponent(typeof(Text))]
     /// <summary>
