@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using SimpleJSON;
+using static System.Char;
 
 namespace Mogoo.Utils
 {
@@ -15,17 +16,16 @@ namespace Mogoo.Utils
         // 读取对象Object
         public static UnityEngine.Object LoadResources(string path)
         {
-            UnityEngine.Object obj = Resources.Load(path);
+            var obj = Resources.Load(path);
             if (obj == null) return null;
-            UnityEngine.Object go = UnityEngine.Object.Instantiate(obj);
+            var go = UnityEngine.Object.Instantiate(obj);
             return path != null ? go : null;
         }
 
         // 读取音效
         public static AudioClip LoadAudio(string path)
         {
-            AudioClip audio = null;// = new AudioClip();
-
+            AudioClip audio = null;
             try
             {
                 audio = (AudioClip)Resources.Load(path, typeof(AudioClip));
@@ -78,17 +78,17 @@ namespace Mogoo.Utils
         }
 
         // 颜色字符（0xffffffff）转换 color
-        public static Color ColorFromString(string colorstring)
+        public static Color ColorFromString(string color)
         {
 
-            int r = VFromChar(colorstring[0]) * 16 + VFromChar(colorstring[1]);
-            int g = VFromChar(colorstring[2]) * 16 + VFromChar(colorstring[3]);
-            int b = VFromChar(colorstring[4]) * 16 + VFromChar(colorstring[5]);
-            int a = VFromChar(colorstring[6]) * 16 + VFromChar(colorstring[7]);
+            var r = VFromChar(color[0]) * 16 + VFromChar(color[1]);
+            var g = VFromChar(color[2]) * 16 + VFromChar(color[3]);
+            var b = VFromChar(color[4]) * 16 + VFromChar(color[5]);
+            var a = VFromChar(color[6]) * 16 + VFromChar(color[7]);
             return new UnityEngine.Color(r * 1f / 255, g * 1f / 255, b * 1f / 255, a * 1f / 255);
         }
 
-        static int VFromChar(int c)
+        public static int VFromChar(int c)
         {
             if (c >= '0' && c <= '9')
             {
@@ -127,7 +127,7 @@ namespace Mogoo.Utils
         // 写二进制文件
         public static void WriteBytes(string path, byte[] bytes)
         {
-            FileStream fs = new FileStream(path, FileMode.Create);
+            var fs = new FileStream(path, FileMode.Create);
             fs.Write(bytes, 0, bytes.Length);
             fs.Flush();
             fs.Close();
@@ -136,8 +136,8 @@ namespace Mogoo.Utils
         // 写txt文件
         public static void WriteTxt(string path, string text)
         {
-            FileStream fs = new FileStream(path, FileMode.Create);
-            byte[] data = System.Text.Encoding.UTF8.GetBytes(text.ToString());
+            var fs = new FileStream(path, FileMode.Create);
+            var data = System.Text.Encoding.UTF8.GetBytes(text.ToString());
             fs.Write(data, 0, data.Length);
             fs.Flush();
             fs.Close();
@@ -152,24 +152,24 @@ namespace Mogoo.Utils
         // 项目内部读文件String
         public static string LoadGameString(string path)
         {
-            string txt = ((TextAsset)Resources.Load(path)).text;
+            var txt = ((TextAsset)Resources.Load(path)).text;
             return txt;
         }
 
         // 项目内部读文件json
         public static JSONNode LoadGameJson(string path)
         {
-            string txt = ((TextAsset)Resources.Load(path)).text;
-            JSONNode json = JSONNode.Parse(txt);
+            var txt = ((TextAsset)Resources.Load(path)).text;
+            var json = JSONNode.Parse(txt);
             return json;
         }
 
         // 项目内读取二进制文件
         public static byte[] LoadBytes(string path)
         {
-            FileStream file = new FileStream(path, FileMode.Open);
-            int len = (int)file.Length;
-            byte[] byData = new byte[len];
+            var file = new FileStream(path, FileMode.Open);
+            var len = (int)file.Length;
+            var byData = new byte[len];
             file.Read(byData, 0, len);
             return byData;
         }
@@ -177,11 +177,11 @@ namespace Mogoo.Utils
         // 外部读txt文件
         public static string LoadString(string path)
         {
-            FileStream file = new FileStream(path, FileMode.Open);
-            int len = (int)file.Length;
-            byte[] byData = new byte[len];
+            var file = new FileStream(path, FileMode.Open);
+            var len = (int)file.Length;
+            var byData = new byte[len];
             file.Read(byData, 0, len);
-            string text = Encoding.UTF8.GetString(byData);
+            var text = Encoding.UTF8.GetString(byData);
             file.Close();
             return text;
         }
@@ -189,7 +189,7 @@ namespace Mogoo.Utils
         // 字符串是否有中文字
         public static bool IsChinese(string text)
         {
-            for (int i = 0; i < text.Length; i++)
+            for (var i = 0; i < text.Length; i++)
             {
                 if (System.Text.RegularExpressions.Regex.IsMatch(text[i].ToString(), @"^[\u4e00-\u9fa5]+$"))
                 {
@@ -202,9 +202,9 @@ namespace Mogoo.Utils
         // 字符串是否有特殊符号
         public static bool IsSymbol(string text)
         {
-            for (int i = 0; i < text.Length; i++)
+            for (var i = 0; i < text.Length; i++)
             {
-                if (!char.IsLetter(text[i]) && !char.IsNumber(text[i]))
+                if (!IsLetter(text[i]) && !Char.IsNumber(text[i]))
                 {
                     return true;
                 }
@@ -215,8 +215,8 @@ namespace Mogoo.Utils
         // 字符串长度（中文字为2个字符）
         public static int GetStringLength(string text)
         {
-            int num = 0;
-            for (int i = 0; i < text.Length; i++)
+            var num = 0;
+            for (var i = 0; i < text.Length; i++)
             {
                 if (System.Text.RegularExpressions.Regex.IsMatch(text[i].ToString(), @"^[\u4e00-\u9fa5]+$"))
                 {
@@ -232,8 +232,8 @@ namespace Mogoo.Utils
         {
             if (text.Length > num) return true;
 
-            int temp = 0;
-            for (int i = 0; i < text.Length; i++)
+            var temp = 0;
+            for (var i = 0; i < text.Length; i++)
             {
                 if (System.Text.RegularExpressions.Regex.IsMatch(text[i].ToString(), @"^[\u4e00-\u9fa5]+$"))
                 {
@@ -241,19 +241,15 @@ namespace Mogoo.Utils
                 }
             }
             Debug.LogError(text + "==" + temp + "===" + text.Length + "  " + temp);
-            if (text.Length + temp > num)
-            {
-                return true;
-            }
-            return false;
+            return text.Length + temp > num;
         }
 
         // 字符串是否纯数字
         public static bool IsNumber(string str)
         {
-            for (int i = 0; i < str.Length; i++)
+            for (var i = 0; i < str.Length; i++)
             {
-                if (!Char.IsNumber(str, i))
+                if (!char.IsNumber(str, i))
                 {
                     return false;
                 }
@@ -262,24 +258,24 @@ namespace Mogoo.Utils
         }
 
         // 解析时间戳
-        public static string[] GetTimeStamp(string _time)
+        public static string[] GetTimeStamp(string time)
         {
-            long timeStamp = long.Parse(_time);
-            System.DateTime dtStart = TimeZoneInfo.ConvertTime(new System.DateTime(1970, 1, 1), TimeZoneInfo.Local);
-            long lTime = timeStamp * 10000000;
+            var timeStamp = long.Parse(time);
+            var dtStart = TimeZoneInfo.ConvertTime(new System.DateTime(1970, 1, 1), TimeZoneInfo.Local);
+            var lTime = timeStamp * 10000000;
 
-            System.TimeSpan toNow = new System.TimeSpan(lTime);
+            var toNow = new System.TimeSpan(lTime);
 
-            System.DateTime dtResult = dtStart.Add(toNow);
-            string date = dtResult.ToShortDateString().ToString();
-            string time = dtResult.ToString("HH:mm:ss");
-            string[] date_arr = date.Split('/');
-            string[] time_arr = time.Split(':');
-            string secondarr = time_arr[2];
-            char[] second = secondarr.ToCharArray();
+            var dtResult = dtStart.Add(toNow);
+            var dateStr = dtResult.ToShortDateString().ToString();
+            var timeStr = dtResult.ToString("HH:mm:ss");
+            var dateArr = dateStr.Split('/');
+            var timeArr = timeStr.Split(':');
+            var secondArr = timeArr[2];
+            var second = secondArr.ToCharArray();
 
-            string[] result = new string[]{ date_arr[0] + "月" + date_arr[1] + "日",
-                                        time_arr[0] + ":" +time_arr[1] + ":"
+            var result = new string[]{ dateArr[0] + "月" + dateArr[1] + "日",
+                                        timeArr[0] + ":" +timeArr[1] + ":"
                                         + second[0] + second[1]};
 
             return result;
@@ -302,15 +298,13 @@ namespace Mogoo.Utils
             if (!info.Exists)
                 return;
 
-            DirectoryInfo dirInfo = info as DirectoryInfo;
-            if (dirInfo == null)
+            if (!(info is DirectoryInfo dirInfo))
                 return;
 
-            FileSystemInfo[] fileSysInfos = dirInfo.GetFileSystemInfos();
-            for (int i = 0; i < fileSysInfos.Length; i++)
+            var fileSysInfos = dirInfo.GetFileSystemInfos();
+            for (var i = 0; i < fileSysInfos.Length; i++)
             {
-                FileInfo fileInfo = fileSysInfos[i] as FileInfo;
-                if (fileInfo != null)
+                if (fileSysInfos[i] is FileInfo fileInfo)
                 {
                     action(fileInfo);
                 }

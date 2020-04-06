@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Mogoo.Utils
+namespace Mogoo.Base
 {
     /// <summary>
     /// 普通类单例
@@ -8,24 +8,24 @@ namespace Mogoo.Utils
     /// <typeparam name="T"></typeparam>
     public abstract class Singleton<T> where T : class, new()
     {
-        private static T instance;
+        private static T _instance;
 
-        static readonly object syncLock = new object();
+        private static readonly object _lock = new object();
 
         public static T Instance
         {
             get
             {
-                if (instance == null)
+                if (_instance == null)
                 {
                     // 加锁
-                    lock (syncLock)
+                    lock (_lock)
                     {
-                        if (instance == null)
-                            instance = new T();
+                        if (_instance == null)
+                            _instance = new T();
                     }
                 }
-                return instance;
+                return _instance;
             }
         }
 
@@ -37,32 +37,31 @@ namespace Mogoo.Utils
     /// <typeparam name="T"></typeparam>
     public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
-        private static T instance;
+        private static T _instance;
 
         public static T Instance
         {
             get
             {
-                if (instance == null)
+                if (_instance == null)
                 {
-                    instance = FindObjectOfType(typeof(T)) as T;
-                    if (instance == null)
+                    _instance = FindObjectOfType(typeof(T)) as T;
+                    if (_instance == null)
                     {
-                        GameObject obj = new GameObject();
-                        obj.hideFlags = HideFlags.HideAndDontSave;
-                        instance = obj.AddComponent<T>();
+                        var obj = new GameObject {hideFlags = HideFlags.HideAndDontSave};
+                        _instance = obj.AddComponent<T>();
                     }
                 }
-                return instance;
+                return _instance;
             }
         }
 
         public void Awake()
         {
             DontDestroyOnLoad(gameObject);
-            if (instance == null)
+            if (_instance == null)
             {
-                instance = this as T;
+                _instance = this as T;
             }
             else
             {

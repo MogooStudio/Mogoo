@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 
-namespace Mogoo.Utils
+namespace Mogoo.Helper
 {
     public static class DebugerExtension
     {

@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace Mogoo.Utils
+namespace Mogoo.Helper
 {
     public class Debuger
     {
