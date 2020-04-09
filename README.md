@@ -1,7 +1,8 @@
 
 # 总目录  
 > Mogoo
-> ----Base {框架基础相关}  
+> ----Base {基础相关}
+> ----Pool {对象池}  
 > ----Extension {扩展相关}   
 > ----Helper {辅助相关：跟unity有关}     
 > ----Utils {工具相关}     
@@ -12,6 +13,9 @@
 # Mogoo分目录
 ## Base `[基础]`  
 - `Singleton` 单例封装
+
+## Pool `[对象池]` 
+- `ObjectPoolManager` 对象池封装  
 
 ## Extension `[扩展]`
 - `GameObjectExtension` GameObject扩展
