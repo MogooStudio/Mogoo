@@ -14,6 +14,6 @@ public class Delaydestory : MonoBehaviour
 
     private void OnDelayDestroy()
     {
-        ObjectPoolManager.Instance.Despawn(this.gameObject.name, this.gameObject);
+        PoolManager.Instance.Despawn(this.gameObject.name, this.gameObject);
     }
 }
