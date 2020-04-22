@@ -16,12 +16,18 @@ public class poolTest : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            PoolManager.Instance.Spawn("Test/Cube");
+            PoolManager.Instance.Spawn("Test/Cube", (GameObject o) =>
+            {
+                Debug.Log("load cube");
+            });
         }
 
         if (Input.GetMouseButtonDown(1))
         {
-            PoolManager.Instance.Spawn("Test/Sphere");
+            PoolManager.Instance.Spawn("Test/Sphere", (GameObject o) =>
+            {
+                Debug.Log("load sphere");
+            });
         }
     }
 }

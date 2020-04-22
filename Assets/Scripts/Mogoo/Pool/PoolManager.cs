@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Mogoo.Base;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Mogoo.Pool
 {
@@ -50,19 +51,20 @@ namespace Mogoo.Pool
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public GameObject Spawn(string name)
+        public void Spawn(string name, UnityAction<GameObject> callback)
         {
-            GameObject gameObject = null;
             if (_pools.ContainsKey(name) && _pools[name].GetCount() > 0)
             {
-                gameObject = _pools[name].GetObj();
+                callback(_pools[name].GetObj());
             }
             else
             {
-                gameObject = GameObject.Instantiate(Resources.Load<GameObject>(name));
-                gameObject.name = name;
+                ResManager.Instance.LoadAsync(name, (GameObject obj) =>
+                {
+                    obj.name = name;
+                    callback(obj);
+                });
             }
-            return gameObject;
         }
 
         /// <summary>
