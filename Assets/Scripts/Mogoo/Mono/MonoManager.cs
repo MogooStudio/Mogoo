@@ -9,7 +9,7 @@ namespace Mogoo.Mono
 {
     public class MonoManager : Singleton<MonoManager>
     {
-        private MonoController _controller;
+        private readonly MonoController _controller;
 
         public MonoManager()
         {

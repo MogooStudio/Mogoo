@@ -45,11 +45,12 @@ namespace Mogoo.Pool
         private readonly Dictionary<string, PoolData> _pools = new Dictionary<string, PoolData>();
 
         private GameObject _poolObject;
-        
+
         /// <summary>
         /// 产生
         /// </summary>
         /// <param name="name"></param>
+        /// <param name="callback"></param>
         /// <returns></returns>
         public void Spawn(string name, UnityAction<GameObject> callback)
         {
