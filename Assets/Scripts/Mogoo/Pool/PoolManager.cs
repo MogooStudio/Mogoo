@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mogoo.Base;
+using Mogoo.Res;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -29,9 +30,9 @@ namespace Mogoo.Pool
         
         public void PushObj(GameObject gameObject)
         {
-            _poolList.Add(gameObject);
             gameObject.transform.parent = _parent.transform;
             gameObject.SetActive(false);
+            _poolList.Add(gameObject);
         }
 
         public int GetCount()
@@ -75,8 +76,11 @@ namespace Mogoo.Pool
         /// <param name="gameObject"></param>
         public void Despawn(string name, GameObject gameObject)
         {
-            if (_poolObject == null) _poolObject = new GameObject("PoolManager");
-
+            if (_poolObject == null)
+            {
+                _poolObject = new GameObject("PoolManager");
+            }
+            
             if (_pools.ContainsKey(name))
             {
                 _pools[name].PushObj(gameObject);

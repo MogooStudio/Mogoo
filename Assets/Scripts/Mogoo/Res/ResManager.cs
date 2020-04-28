@@ -5,37 +5,42 @@ using Mogoo.Mono;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ResManager : Singleton<ResManager>
+namespace Mogoo.Res
 {
-    public T Load<T>(string path) where T:Object
+    public class ResManager : Singleton<ResManager>
     {
-        T t = Resources.Load<T>(path);
-        if (t is GameObject)
+        public T Load<T>(string path) where T : Object
         {
-            return GameObject.Instantiate(t);
+            T t = Resources.Load<T>(path);
+            if (t is GameObject)
+            {
+                return GameObject.Instantiate(t);
+            }
+            else
+            {
+                return t;
+            }
         }
-        else
-        {
-            return t;
-        }
-    }
 
-    public void LoadAsync<T>(string path, UnityAction<T> func) where T:Object
-    {
-        MonoManager.Instance.StartCoroutine(loadAsync(path, func));
-    }
-
-    private IEnumerator loadAsync<T>(string path, UnityAction<T> func) where T : Object
-    {
-        ResourceRequest r = Resources.LoadAsync(path);
-        yield return r;
-        if (r.asset is GameObject)
+        public void LoadAsync<T>(string path, UnityAction<T> func) where T : Object
         {
-            func(GameObject.Instantiate(r.asset) as T);
+            MonoManager.Instance.StartCoroutine(loadAsync(path, func));
         }
-        else
+
+        private IEnumerator loadAsync<T>(string path, UnityAction<T> func) where T : Object
         {
-            func(r.asset as T);
+            ResourceRequest r = Resources.LoadAsync(path);
+            yield return r;
+            if (r.asset is GameObject)
+            {
+                func(GameObject.Instantiate(r.asset) as T);
+            }
+            else
+            {
+                func(r.asset as T);
+            }
         }
     }
 }
+
+

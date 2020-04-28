@@ -7,30 +7,35 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class SceneController : Singleton<SceneController>
+namespace Mogoo.Scene
 {
-    //同步加载
-    public void LoadScene(string sceneName, UnityAction func)
+    public class SceneController : Singleton<SceneController>
     {
-        SceneManager.LoadScene(sceneName);
-        func();
-    }
-
-    //异步加载
-    public void LoadSceneAsync(string sceneName, UnityAction func)
-    {
-        MonoManager.Instance.StartCoroutine(loadSceneAsync(sceneName, func));
-    }
-
-    //异步加载协程
-    private IEnumerator loadSceneAsync(string sceneName, UnityAction func)
-    {
-        AsyncOperation ao = SceneManager.LoadSceneAsync(sceneName);
-        while (!ao.isDone)
+        //同步加载
+        public void LoadScene(string sceneName, UnityAction func)
         {
-            EventCenter.Instance.DispatchEvent("load_scene_async_progress", ao.progress);
-            yield return ao.progress;
+            SceneManager.LoadScene(sceneName);
+            func();
         }
-        func();
+
+        //异步加载
+        public void LoadSceneAsync(string sceneName, UnityAction func)
+        {
+            MonoManager.Instance.StartCoroutine(loadSceneAsync(sceneName, func));
+        }
+
+        //异步加载协程
+        private IEnumerator loadSceneAsync(string sceneName, UnityAction func)
+        {
+            AsyncOperation ao = SceneManager.LoadSceneAsync(sceneName);
+            while (!ao.isDone)
+            {
+                EventCenter.Instance.DispatchEvent("load_scene_async_progress", ao.progress);
+                yield return ao.progress;
+            }
+            func();
+        }
     }
 }
+
+
