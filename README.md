@@ -1,4 +1,6 @@
 
+![JetBrains ReSharper plugins Version](https://img.shields.io/badge/resharper-v2020.3.4-brightgreen)
+
 # 总目录  
 > Mogoo  
 > ----Base {基础相关}  
