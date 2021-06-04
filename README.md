@@ -23,6 +23,9 @@ Mogoo是一个Unity工具集，目前还在逐步完善中，目标是作为一�
 - protocol-buffers  
 - LitJSON {待加入}  
 
+## 许可
+[MIT License](https://github.com/MogooStudio/Mogoo/blob/master/LICENSE)
+
 ## 联系方式
 - QQ : 1040392895 
 - EMAIL : mogoostudio@outlook.com 
